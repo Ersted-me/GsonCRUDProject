@@ -1,19 +1,19 @@
 package com.ersted_me.gsoncrudproject.repository.gson;
 
 import com.ersted_me.gsoncrudproject.model.Skill;
-import com.ersted_me.gsoncrudproject.repository.GsonSkillRepository;
+import com.ersted_me.gsoncrudproject.repository.SkillRepository;
 import com.ersted_me.gsoncrudproject.util.GsonIOUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class GsonSkillRepositoryImpl implements GsonSkillRepository {
+public class GsonSkillRepositoryImpl implements SkillRepository {
     private final static String FILE_NAME = "skill.json";
+    private final Gson gson = new Gson();
 
     @Override
     public Skill create(Skill skill) {
@@ -22,9 +22,9 @@ public class GsonSkillRepositoryImpl implements GsonSkillRepository {
         return skill;
     }
 
-    public Long getLastId() {
+    private Long getLastId() {
         Long id = 0L;
-        List<Skill> skills = getAll();
+        List<Skill> skills = getSkills();
 
         if (skills != null) {
             skills.sort(Comparator.comparing(Skill::getId));
@@ -36,55 +36,60 @@ public class GsonSkillRepositoryImpl implements GsonSkillRepository {
 
     @Override
     public Skill getById(Long id) {
-        Skill skill = getAll().stream()
-                .filter(obj -> obj.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        if (skill == null)
-            throw new IllegalArgumentException("Объекта с id = " + id + " не существует.");
+        return getSkillById(id);
+    }
+
+    // возвращать старую или новую версию объекта?
+    @Override
+    public Skill update(Skill skill) {
+        Skill oldSkill = getSkillById(skill.getId());
+        if(oldSkill == null)
+            return null;
+
+        delete(oldSkill);
+        GsonIOUtil.write(FILE_NAME, objToJson(skill));
 
         return skill;
     }
 
-    // старый объект удаляется и создается новый, с новым id
-    @Override
-    public void update(Skill skill) {
-        delete(getById(skill.getId()));
-        create(skill);
-    }
-
     @Override
     public void delete(Skill skill) {
-        List<Skill> skills = getAll();
-        Skill removeSkill = null;
-        for (Skill item: skills) {
-            if(item.getId().equals(skill.getId())){
-                removeSkill = item;
-            }
-        }
-        skills.remove(removeSkill);
+        if(skill == null)
+            return;
+        List<Skill> skills = getSkills();
 
-        GsonIOUtil.writeList(FILE_NAME, objToJson(skills),true);
+        skills.removeIf(item -> item.getId().equals(skill.getId()));
+
+        GsonIOUtil.writeList(FILE_NAME, objToJson(skills), true);
     }
 
     @Override
     public List<Skill> getAll() {
+        return getSkills();
+    }
+
+    private List<Skill> getSkills() {
         return jsonToObj(GsonIOUtil.read(FILE_NAME));
     }
 
-    @Override
-    public String objToJson(Skill skill) {
-        return new Gson().toJson(skill);
+    private Skill getSkillById(Long id){
+        return getSkills().stream()
+                .filter(obj -> obj.getId().equals(id))
+                .findFirst()
+                .orElse(null);
     }
 
-
-    public List<String> objToJson(List<Skill> skill) {
-        return skill.stream().map((a) -> new Gson().toJson(a)).collect(Collectors.toList());
+    private String objToJson(Skill skill) {
+        return gson.toJson(skill);
     }
 
-    public List<Skill> jsonToObj(String jsonStr) {
+    private List<String> objToJson(List<Skill> skill) {
+        return skill.stream().map((a) -> gson.toJson(a)).collect(Collectors.toList());
+    }
+
+    private List<Skill> jsonToObj(String jsonStr) {
         Type targetClassType = new TypeToken<List<Skill>>() {
         }.getType();
-        return new Gson().fromJson(jsonStr, targetClassType);
+        return gson.fromJson(jsonStr, targetClassType);
     }
 }

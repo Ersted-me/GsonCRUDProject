@@ -13,16 +13,20 @@ public class Test {
         Skill skill = new Skill("name");
         Skill skill2 = new Skill("name2");
         Skill skill3 = new Skill("name3");
-        Skill skill4 = new Skill(1L,"new");
+        Skill skill4 = new Skill(2L,"new");
 
         g.create(skill);
         g.create(skill2);
         g.create(skill3);
-        //g.getAll().forEach(System.out::println);
-        g.delete(g.getById(g.getLastId()));
+
+        g.getAll().forEach(System.out::println);
+        System.out.println();
+
+        g.delete(g.getById(1L));
+
         g.update(skill4);
 //
-//        g.getAll().forEach(System.out::println);
+        g.getAll().forEach(System.out::println);
 
     }
 }
