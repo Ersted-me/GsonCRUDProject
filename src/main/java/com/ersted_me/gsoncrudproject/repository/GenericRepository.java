@@ -1,9 +1,5 @@
 package com.ersted_me.gsoncrudproject.repository;
 
-import com.ersted_me.gsoncrudproject.model.Skill;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 public interface GenericRepository<T, ID> {
