@@ -1,6 +1,5 @@
 package com.ersted_me.gsoncrudproject.repository.gson;
 
-import com.ersted_me.gsoncrudproject.model.BaseEntity;
 import com.ersted_me.gsoncrudproject.model.Skill;
 import com.ersted_me.gsoncrudproject.repository.SkillRepository;
 import com.ersted_me.gsoncrudproject.util.GsonIOUtil;
@@ -10,7 +9,6 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class GsonSkillRepositoryImpl implements SkillRepository {
     private final static String FILE_NAME = "skill.json";

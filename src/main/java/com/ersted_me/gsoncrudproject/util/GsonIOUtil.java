@@ -1,12 +1,9 @@
 package com.ersted_me.gsoncrudproject.util;
 
 import com.ersted_me.gsoncrudproject.model.BaseEntity;
-import com.ersted_me.gsoncrudproject.model.Skill;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +43,7 @@ public class GsonIOUtil {
         }
     }
 
+    // лучше null возвращать или же ""?
     public static String read(String filename) {
         try (BufferedReader fin = new BufferedReader(
                 new InputStreamReader(new FileInputStream(filename)))) {
