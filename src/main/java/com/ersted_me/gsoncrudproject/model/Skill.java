@@ -9,8 +9,8 @@ public class Skill extends NamedEntity{
     @Override
     public String toString() {
         return "Skill{" +
-                "id=" + getId() +
-                ", name='" + getName() + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

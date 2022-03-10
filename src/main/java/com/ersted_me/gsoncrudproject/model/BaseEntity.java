@@ -1,13 +1,13 @@
 package com.ersted_me.gsoncrudproject.model;
 
 public class BaseEntity {
-    private Long Id;
+    protected Long id;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 }
