@@ -46,7 +46,6 @@ public class GsonIOUtil {
         }
     }
 
-
     public static String read(String filename) {
         try (BufferedReader fin = new BufferedReader(
                 new InputStreamReader(new FileInputStream(filename)))) {
@@ -57,7 +56,7 @@ public class GsonIOUtil {
         } catch (IOException e) {
             System.out.println("Ошибка ввода-вывода: " + e);
         }
-        return null;
+        return "";
     }
 
     private static String objToJson(BaseEntity entity) {
