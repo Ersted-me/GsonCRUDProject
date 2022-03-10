@@ -1,5 +1,6 @@
 package com.ersted_me.gsoncrudproject.repository.gson;
 
+import com.ersted_me.gsoncrudproject.model.BaseEntity;
 import com.ersted_me.gsoncrudproject.model.Skill;
 import com.ersted_me.gsoncrudproject.repository.SkillRepository;
 import com.ersted_me.gsoncrudproject.util.GsonIOUtil;
@@ -18,7 +19,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
     @Override
     public Skill create(Skill skill) {
         skill.setId(getLastId() + 1);
-        GsonIOUtil.write(FILE_NAME, objToJson(skill));
+        GsonIOUtil.write(FILE_NAME, skill);
         return skill;
     }
 
@@ -47,7 +48,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
             return null;
 
         delete(oldSkill);
-        GsonIOUtil.write(FILE_NAME, objToJson(skill));
+        GsonIOUtil.write(FILE_NAME, skill);
 
         return skill;
     }
@@ -60,7 +61,7 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
 
         skills.removeIf(item -> item.getId().equals(skill.getId()));
 
-        GsonIOUtil.writeList(FILE_NAME, objToJson(skills), true);
+        GsonIOUtil.writeList(FILE_NAME, skills, true);
     }
 
     @Override
@@ -77,14 +78,6 @@ public class GsonSkillRepositoryImpl implements SkillRepository {
                 .filter(obj -> obj.getId().equals(id))
                 .findFirst()
                 .orElse(null);
-    }
-
-    private String objToJson(Skill skill) {
-        return gson.toJson(skill);
-    }
-
-    private List<String> objToJson(List<Skill> skill) {
-        return skill.stream().map((a) -> gson.toJson(a)).collect(Collectors.toList());
     }
 
     private List<Skill> jsonToObj(String jsonStr) {
