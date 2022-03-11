@@ -6,7 +6,7 @@ import com.ersted_me.gsoncrudproject.repository.SkillRepository;
 import java.util.List;
 
 public class SkillController {
-    SkillRepository skillRepository;
+    private final SkillRepository skillRepository;
 
     public SkillController(SkillRepository skillRepository) {
         this.skillRepository = skillRepository;

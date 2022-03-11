@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SkillView {
-    SkillController controller;
-    Scanner scanner;
+    private final SkillController controller;
+    private final Scanner scanner;
 
     public SkillView(SkillController controller, Scanner scanner) {
         this.controller = controller;
