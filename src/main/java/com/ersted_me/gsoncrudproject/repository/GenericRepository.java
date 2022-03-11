@@ -1,5 +1,6 @@
 package com.ersted_me.gsoncrudproject.repository;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface GenericRepository<T, ID> {

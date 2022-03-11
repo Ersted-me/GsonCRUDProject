@@ -12,21 +12,23 @@ public class GsonIOUtil {
     private static final String SQUARE_BRACKETS = "[]";
     private static final Gson gson = new Gson();
 
-    public static void write(String filename, BaseEntity baseEntity) {
+    public static void writeToJsonFile(String filename, BaseEntity baseEntity) throws IOException {
+        if (notFile(filename))
+            throw new FileNotFoundException();
+
         String jsonString = objToJson(baseEntity);
+
         try (RandomAccessFile fout = new RandomAccessFile(filename, "rw")) {
-
             writeCorrectFormOfString(fout, jsonString);
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден: " + filename);
-        } catch (IOException e) {
-            System.out.println("Ошибка ввода-вывода: " + e);
         }
     }
 
+    public static void writeList(String filename,
+                                 List<? extends BaseEntity> entities,
+                                 boolean overwrite) throws IOException {
+        if (notFile(filename))
+            throw new FileNotFoundException();
 
-    public static void writeList(String filename, List<? extends BaseEntity> entities, boolean overwrite) {
         List<String> jsonEntities = objToJson(entities);
 
         try (RandomAccessFile fout = new RandomAccessFile(filename, "rw")) {
@@ -35,26 +37,22 @@ public class GsonIOUtil {
 
             for (String jsonEntity : jsonEntities)
                 writeCorrectFormOfString(fout, jsonEntity);
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден: " + filename);
-        } catch (IOException e) {
-            System.out.println("Ошибка ввода-вывода: " + e);
         }
     }
 
-    // лучше null возвращать или же ""?
-    public static String read(String filename) {
+    public static String read(String filename) throws IOException {
+        if (notFile(filename))
+            throw new FileNotFoundException();
+
         try (BufferedReader fin = new BufferedReader(
                 new InputStreamReader(new FileInputStream(filename)))) {
             return fin.lines().collect(Collectors.joining());
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден: " + filename);
-        } catch (IOException e) {
-            System.out.println("Ошибка ввода-вывода: " + e);
         }
-        return "";
+    }
+
+    private static boolean notFile(String filename) {
+        File file = new File(filename);
+        return !file.exists() | !file.isFile();
     }
 
     private static String objToJson(BaseEntity entity) {
