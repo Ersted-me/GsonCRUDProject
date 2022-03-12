@@ -6,29 +6,29 @@ import com.ersted_me.gsoncrudproject.repository.SpecialtyRepository;
 import java.util.List;
 
 public class SpecialtyController {
-    private final SpecialtyRepository specialtyRepository;
+    private final SpecialtyRepository repository;
 
-    public SpecialtyController(SpecialtyRepository specialtyRepository) {
-        this.specialtyRepository = specialtyRepository;
+    public SpecialtyController(SpecialtyRepository repository) {
+        this.repository = repository;
     }
 
     public Specialty create(String name) {
-        return specialtyRepository.create(new Specialty(name));
+        return repository.create(new Specialty(name));
     }
 
     public Specialty getById(Long id) {
-        return specialtyRepository.getById(id);
+        return repository.getById(id);
     }
 
     public Specialty update(Specialty specialty) {
-        return specialtyRepository.update(specialty);
+        return repository.update(specialty);
     }
 
     public void delete(Specialty specialty) {
-        specialtyRepository.delete(specialty);
+        repository.delete(specialty);
     }
 
     public List<Specialty> getAll() {
-        return specialtyRepository.getAll();
+        return repository.getAll();
     }
 }

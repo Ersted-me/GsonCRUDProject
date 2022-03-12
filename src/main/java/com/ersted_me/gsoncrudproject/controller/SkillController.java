@@ -6,29 +6,29 @@ import com.ersted_me.gsoncrudproject.repository.SkillRepository;
 import java.util.List;
 
 public class SkillController {
-    private final SkillRepository skillRepository;
+    private final SkillRepository repository;
 
-    public SkillController(SkillRepository skillRepository) {
-        this.skillRepository = skillRepository;
+    public SkillController(SkillRepository repository) {
+        this.repository = repository;
     }
 
     public Skill create(String name) {
-        return skillRepository.create(new Skill(name));
+        return repository.create(new Skill(name));
     }
 
     public Skill getById(Long id) {
-        return skillRepository.getById(id);
+        return repository.getById(id);
     }
 
     public Skill update(Skill skill) {
-        return skillRepository.update(skill);
+        return repository.update(skill);
     }
 
     public void delete(Skill skill) {
-        skillRepository.delete(skill);
+        repository.delete(skill);
     }
 
     public List<Skill> getAll() {
-        return skillRepository.getAll();
+        return repository.getAll();
     }
 }

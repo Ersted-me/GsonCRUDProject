@@ -1,6 +1,6 @@
 package com.ersted_me.gsoncrudproject.repository.gson;
 
-import com.ersted_me.gsoncrudproject.model.NamedEntity;
+import com.ersted_me.gsoncrudproject.model.BaseEntity;
 import com.ersted_me.gsoncrudproject.repository.GenericRepository;
 import com.ersted_me.gsoncrudproject.util.GsonIOUtil;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class GenericRepositoryForNamedEntity<T extends NamedEntity> implements GenericRepository<T, Long> {
+public class GenericRepositoryForNamedEntity<T extends BaseEntity> implements GenericRepository<T, Long> {
     protected final String FILE_NAME;
     protected final Type TYPE_TOKEN;
 
@@ -39,12 +39,12 @@ public class GenericRepositoryForNamedEntity<T extends NamedEntity> implements G
 
     @Override
     public T getById(Long id) {
-        return getSkillById(id);
+        return getNoteById(id);
     }
 
     @Override
     public T update(T t) {
-        T oldElement = getSkillById(t.getId());
+        T oldElement = getNoteById(t.getId());
         if (oldElement == null)
             return null;
 
@@ -64,7 +64,7 @@ public class GenericRepositoryForNamedEntity<T extends NamedEntity> implements G
         if (t == null)
             return;
 
-        List<T> elements = getObjectsFromJsonFile();
+        List<T> elements = getNotesFromJsonFile();
         if (elements == null)
             return;
 
@@ -80,11 +80,11 @@ public class GenericRepositoryForNamedEntity<T extends NamedEntity> implements G
 
     @Override
     public List<T> getAll() {
-        return getObjectsFromJsonFile();
+        return getNotesFromJsonFile();
     }
 
-    protected T getSkillById(Long id) {
-        List<T> elements = getObjectsFromJsonFile();
+    protected T getNoteById(Long id) {
+        List<T> elements = getNotesFromJsonFile();
         if (elements == null)
             return null;
 
@@ -95,7 +95,7 @@ public class GenericRepositoryForNamedEntity<T extends NamedEntity> implements G
     }
 
     protected Long getLastId() {
-        List<T> elements = getObjectsFromJsonFile();
+        List<T> elements = getNotesFromJsonFile();
 
         if (elements == null)
             return null;
@@ -107,13 +107,12 @@ public class GenericRepositoryForNamedEntity<T extends NamedEntity> implements G
         return elements.get(elements.size() - 1).getId();
     }
 
-    protected List<T> getObjectsFromJsonFile() {
+    protected List<T> getNotesFromJsonFile() {
         String jsonObjFromFile;
         List<T> list;
 
         try {
             jsonObjFromFile = GsonIOUtil.read(FILE_NAME);
-            //Type typeToken = new TypeToken<>() {}.getType();
             list = jsonToObj(jsonObjFromFile, TYPE_TOKEN);
         } catch (IOException e) {
             System.err.println("Ошибка: " + e.toString());
