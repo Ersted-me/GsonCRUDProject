@@ -12,6 +12,10 @@ public class GsonIOUtil {
     private static final String SQUARE_BRACKETS = "[]";
     private static final Gson gson = new Gson();
 
+    public static Gson getGson() {
+        return gson;
+    }
+
     public static void writeToJsonFile(String filename, BaseEntity baseEntity) throws IOException {
         if (notFile(filename))
             throw new FileNotFoundException();

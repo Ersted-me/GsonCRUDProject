@@ -90,11 +90,11 @@ public class SkillView {
                 case "getById" -> getById();
                 case "exit" -> isExit = true;
                 case "help" -> System.out.print(
-                        "\ncreate\t\tдобавить навык\n" +
-                                "delete\t\tудалить навык\n" +
-                                "update\t\tобновить навык\n" +
-                                "getAll\t\tотобразить все навыки\n" +
-                                "getById\t\tпосмотреть навык по ID\n" +
+                        "\ncreate\t\tдобавить\n" +
+                                "delete\t\tудалить\n" +
+                                "update\t\tобновить\n" +
+                                "getAll\t\tотобразить все\n" +
+                                "getById\t\tпосмотреть запись по ID\n" +
                                 "exit\t\tвыйти из меню\n");
             }
         }
@@ -108,7 +108,7 @@ public class SkillView {
 
         Skill skill = controller.getById(id);
         if (skill == null) {
-            System.out.println("Не удалось найти навык с id: " + id);
+            System.out.println("Не удалось найти запись с id: " + id);
             return null;
         }
         return skill;
