@@ -111,11 +111,13 @@ public class DeveloperView {
         if (developer == null)
             return;
 
-        System.out.println("ID:\t" + developer.getId() +
-                "Name:\t" + developer.getFirstName() +
-                "Lastname:\t" + developer.getLastName() +
-                "Skills:\t" + developer.getSkills().stream().map((e) -> e.getName() + "; ").collect(Collectors.joining()) +
-                "Specialty:\t" + developer.getSpecialty());
+        System.out.println("ID:\t" + developer.getId() + "\n" +
+                "Name:\t" + developer.getFirstName() + "\n" +
+                "Lastname:\t" + developer.getLastName() + "\n" +
+                "Skills:\t" + developer.getSkills().stream()
+                .map((e) -> e.getName() + "; ")
+                .collect(Collectors.joining()) + "\n" +
+                "Specialty:\t" + developer.getSpecialty().getName() + "\n");
     }
 
     public void showMenu() {
